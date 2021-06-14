@@ -1,13 +1,13 @@
-#导入streamlit制作网页
+#导入streamlit制作网页#Use Streanlit to build a web app!
 import streamlit as st
-#导入pytube来爬取油管视频信息
+#导入pytube来爬取油管视频信息#Use pytube to crawl YouTube
 import pytube
 from pytube import extract, request, YouTube
 import pytube.exceptions as exceptions
-#导入图片处理相关的库
+#导入图片处理相关的库#About Images
 from PIL import Image
 from skimage import io
-#导入时间处理相关的库
+#导入时间处理相关的库#About time
 import datetime as dt
 from datetime import time
 #导入EasyGui模块来调用文件夹窗口
@@ -65,25 +65,25 @@ def options_filter(a,b,c,d):
             else:
                 c_tag=10
 
-            #当有可用字幕时在路径保存字幕srt文件
+            #当有可用字幕时在路径保存字幕srt文件#Save Sub if it's available
             if c_tag<10:
                 content = caption.generate_srt_captions()
                 makefile(my_path,content,language)
-            #无字幕可用时
+            #无字幕可用时#When no subtitle is available...
             else:
                 content = "I'm sorry~~There's no YouTube subtitle available."
                 language = "Not found"
                 makefile(my_path,content,language)
             
 
-#过滤字幕选项
+#过滤字幕选项#filtering the subtitles
 def get_caption_by_language_name(yt, lang_name):
 	for caption in yt.caption_tracks:
 		if caption.name == lang_name:
 			return caption
 		    
 
-#创建srt格式字幕文件并输入文本内容
+#创建srt格式字幕文件并输入文本内容#create a SRT file to save the subtitle
 def makefile(path,content,language):
     if os.path.exists(path):
         if os.path.isdir(path):
@@ -101,7 +101,7 @@ def makefile(path,content,language):
         print('the path is not exists')
 
 
-#转换文件大小单位的函数
+#转换文件大小单位的函数#Function about file size
 def StrofSize(size):
     def strofsize(integer, remainder, level):
         if integer >= 1024:
@@ -118,10 +118,10 @@ def StrofSize(size):
     return ('{}.{:>03d} {}'.format(integer, remainder, units[level]))
 
 
-#配置网页的默认设置
+#配置网页的默认设置#Default settings
 st.set_page_config(page_title=None, page_icon=None, layout='wide', initial_sidebar_state='auto')
 
-#默认打开侧边框
+#默认打开侧边框#Open the sidebar by default
 row12, row22, row32 = st.sidebar.beta_columns((9,4,18))
 
 with row12:
@@ -136,16 +136,21 @@ with row32:
          "",
          options=['English', 'Japanese', 'Chinese'])
 
-#在界面首页放一张图片以增加美观
-image1=Image.open("C:/Users/David Wu/Pictures/Screenshots/屏幕截图(1).png")
-st.image(image1, use_column_width=True)
+#设置网站的墙纸？只是为了美观而已加了一张图片
+try:
+    image1=Image.open("C:/Users/David Wu/Pictures/Screenshots/屏幕截图(1).png")#You can choose your own wallpaper here, or not.
+    st.image(image1, use_column_width=True)
+except FileNotFoundError:
+    #If you open the web app without setting a wallpaper...
+    st.write("💭 Don't you think the web UI is too plain & we can add a beanutifual wallpaper here?")
+    st.text("......Just saying💬")
 
-#设置标题与副标题
+#设置标题与副标题#Header&subheader setting
 st.header("Save"+" YouTube "+"Videos")
-st.write('''*\000———Use Python to download YouTube videos*!''')
+st.write('''*\000———Use Python to download YouTube videos&subs*!''')
 st.text("\n\n")
 
-#让用户输入视频的URL#并列交互插件使输入文本工具和按钮并排
+#让用户输入视频的URL#并列交互插件使输入文本工具和按钮并排#The URL entering section
 row1_1, row1_2 = st.beta_columns((6,1))
 
 with row1_1:
@@ -155,26 +160,36 @@ with row1_2:
     st.header("")
     st.button('SEARCH',help="Click here to search")
 
-if url!="":    
-    #对用户输入进行反馈
+#当用户输入了url后利用try-except-else对异常进行预判#Use try-except-else to tackle the entered URL
+if url != '':
+    try:
+        my_video=YouTube(url)
+    except pytube.exceptions.RegexMatchError:
+        #当用户输入了错误的url时提示报错#print error log to the user if the URL isn't usable
+        st.error("Please enter YouTube URL!")
+        url_capability = False
+    else:
+        url_capability = True
+
+#当用户输入了正确的油管网址#If the URL work fine
+if url!='' and url_capability:    
+    #先对用户输入进行反馈#Feedback to the user before python crawling...
     st.write("")
     st.write("🌟GOT The Video INFO‼ Check it out!")
     st.write("")
-    #用url获取视频信息
-    my_video=YouTube(url)
     
-    #显示视频标题
+    #显示视频标题#Video Title
     st.write('''🎞︎''',my_video.title)
 
     row2_1, row2_2 = st.beta_columns((14,15))
     
     with row2_1:
-        #封面预览:将视频封面图用skimage通过URL读取并展示在网页界面上
+        #封面预览:将视频封面图用skimage通过URL读取并展示在网页界面上#Thumbnail Previewing?
         image2 = io.imread(my_video.thumbnail_url)
         st.image(image2, width=420)
         
     with row2_2:
-        #显示视频的作者和时长
+        #显示视频的作者和时长#The author and time length of the video
         st.header("")
         st.write("Author—",my_video.author)
         st.write("Length*(of time)*—",
@@ -218,7 +233,7 @@ if url!="":
     st.sidebar.write("🔸Description:")
     st.sidebar.code(my_video.description,language=None)
 
-    ###################下载界面####################
+    ###########################下载界面##########################
     
     row1, row2, row3, row4, row5 = st.beta_columns((1,1,1,1,1))#显示各列信息名
 
