@@ -43,22 +43,37 @@ def options_filter(a,b,c,d):
             my_path = g.diropenbox('open file', 'C:/User/Administrator/Desktop/__pycache__')
             my_video.streams.get_by_itag(d).download(my_path)
 
-            #优先下载官方字幕#备用自动生成字幕
+            #优先下载官方字幕#备用下载自动生成字幕
             if  get_caption_by_language_name(my_video,'English')!=None and language == 'English':
                 caption=get_caption_by_language_name(my_video,'English')
+                c_tag=1
             elif get_caption_by_language_name(my_video,'English (auto-generated)')!=None and language == 'English':
                 caption=get_caption_by_language_name(my_video,'English (auto-generated)')
+                c_tag=2
             elif get_caption_by_language_name(my_video,'Japanese')!=None and language == 'Japanese':
                 caption=get_caption_by_language_name(my_video,'Japanese')
+                c_tag=3
             elif get_caption_by_language_name(my_video,'Japanese (auto-generated)')!=None and language == 'Japanese':
                 caption=get_caption_by_language_name(my_video,'Japanese (auto-generated)')
+                c_tag=4
             elif get_caption_by_language_name(my_video,'Chinese')!=None and language == 'Chinese':
                 caption=get_caption_by_language_name(my_video,'Chinese')
+                c_tag=5
             elif get_caption_by_language_name(my_video,'Chinese (auto-generated)')!=None and language == 'Chinese':
                 caption=get_caption_by_language_name(my_video,'Chinese (auto-generated)')
+                c_tag=6
+            else:
+                c_tag=10
 
-            content = caption.generate_srt_captions()
-            makefile(my_path,content,language)
+            #当有可用字幕时在路径保存字幕srt文件
+            if c_tag<10:
+                content = caption.generate_srt_captions()
+                makefile(my_path,content,language)
+            #无字幕可用时
+            else:
+                content = "I'm sorry~~There's no YouTube subtitle available."
+                language = "Not found"
+                makefile(my_path,content,language)
             
 
 #过滤字幕选项
@@ -107,7 +122,7 @@ def StrofSize(size):
 st.set_page_config(page_title=None, page_icon=None, layout='wide', initial_sidebar_state='auto')
 
 #默认打开侧边框
-row12, row22, row32 = st.sidebar.beta_columns((3,1,6))
+row12, row22, row32 = st.sidebar.beta_columns((9,4,18))
 
 with row12:
     st.text('')
