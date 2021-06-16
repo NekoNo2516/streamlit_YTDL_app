@@ -5,5 +5,4 @@ scikit-image
 datetime
 easygui
 ffmpeg
-sys
 os
