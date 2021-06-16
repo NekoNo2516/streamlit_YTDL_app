@@ -5,3 +5,4 @@ scikit-image
 datetime
 easygui
 ffmpeg
+python3-tk
