@@ -1,7 +1,7 @@
 streamlit
 pytube
-PIL
-skiamge
+Pillow
+scikit-image
 datetime
 easygui
 ffmpeg
