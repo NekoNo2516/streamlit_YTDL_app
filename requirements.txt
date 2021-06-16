@@ -3,5 +3,5 @@ pytube
 Pillow
 scikit-image
 datetime
-easygui==0.96.0
+easygui0.96.0
 ffmpeg
