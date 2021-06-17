@@ -32,15 +32,7 @@ try:
     import tkinter_1.filedialog as tk_FileDialog
     import tkinter_1.font as tk_Font
 except ImportError:
-    try:
-        import Tkinter as tk  # python2
-        # TODO: Ultimately this should go away once everything stops using it.
-        from Tkinter import *
-        import tkFileDialog as tk_FileDialog
-        import tkFont as tk_Font
-
-    except ImportError:
-        raise ImportError("Unable to find tkinter package.")
+    raise ImportError("Unable to find tkinter package.")
 
 if tk.TkVersion < 8.0:
     raise ImportError("You must use python-tk (tkinter) version 8.0 or higher")
