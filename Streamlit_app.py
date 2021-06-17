@@ -21,6 +21,9 @@ from urllib import request
 from urllib import error
 from urllib.request import urlopen
 
+import base64
+import pandas as pd
+
 
 #通过不同复选框筛选下载选项
 def options_filter(a,b,c,d,language):
