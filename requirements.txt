@@ -5,5 +5,3 @@ scikit-image
 datetime
 easygui
 ffmpeg
-tk-dev
-python3-tk
