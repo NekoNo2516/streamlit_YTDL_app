@@ -11,7 +11,7 @@ from skimage import io
 import datetime as dt
 from datetime import time
 #导入EasyGui模块来调用文件夹窗口
-import Diropen
+import easygui as g
 #其他用到的库
 import ffmpeg
 import sys
@@ -43,7 +43,7 @@ def options_filter(a,b,c,d,language):
         if st.button("Download",key=a+b+c+str(d),help="Click here to download"):
 
             #通过easygui的diropenbox函数打开文件资源管理器#让用户选择下载地址
-            my_path = Diropen.diropenbox('open file', 'C:/User/Administrator/Desktop/__pycache__')
+            my_path = g.diropenbox('open file', 'C:/User/Administrator/Desktop/__pycache__')
             my_video.streams.get_by_itag(d).download(my_path)
 
             #优先下载官方字幕#备用下载自动生成字幕
@@ -139,7 +139,7 @@ language = st.sidebar.selectbox(
 
 #设置网站的墙纸？只是为了美观而已加了一张图片
 try:
-    image1=Image.open("C:/Users/David Wu/Pictures/Screenshots/屏幕截图(1).png")#You can choose your own wallpaper here, or not.
+    image1=Image.open("屏幕截图(1).png")#You can choose your own wallpaper here, or not.
     st.image(image1, use_column_width = True)
 except FileNotFoundError:
     #If you open the web app without setting a wallpaper...
