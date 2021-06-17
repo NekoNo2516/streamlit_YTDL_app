@@ -45,9 +45,9 @@ def options_filter(a,b,c,d,language):
 
             #通过easygui的diropenbox函数打开文件资源管理器#让用户选择下载地址
             root = tk.Tk()
-	    root.withdraw()
+		root.withdraw()
 
-	    my_path=filedialog.askdirectory()
+		my_path=filedialog.askdirectory()
             my_video.streams.get_by_itag(d).download(my_path)
 
             #优先下载官方字幕#备用下载自动生成字幕
