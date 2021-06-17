@@ -11,8 +11,7 @@ from skimage import io
 import datetime as dt
 from datetime import time
 #导入EasyGui模块来调用文件夹窗口
-import tkinter as tk
-from tkinter import filedialog
+
 #其他用到的库
 import ffmpeg
 import sys
@@ -44,6 +43,7 @@ def options_filter(a,b,c,d,language):
         if st.button("Download",key=a+b+c+str(d),help="Click here to download"):
 
             #通过easygui的diropenbox函数打开文件资源管理器#让用户选择下载地址
+            my_path = '.'
             my_video.streams.get_by_itag(d).download(my_path)
 
             #优先下载官方字幕#备用下载自动生成字幕
@@ -303,5 +303,7 @@ try:
 #if the internet is taking shirking...
 except error.HTTPError:
     st.error("⚠︎ The Internet may be shirking~ Please hit F5 to rerun the Web.")
+
+
 
 
