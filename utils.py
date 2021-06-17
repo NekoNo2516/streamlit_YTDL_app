@@ -29,8 +29,8 @@ try:
     import tkinter_1 as tk  # python3
     # TODO: Ultimately this should go away once everything stops using it.
     from tkinter_1 import *
-    import tkinter.filedialog as tk_FileDialog
-    import tkinter.font as tk_Font
+    import tkinter_1.filedialog as tk_FileDialog
+    import tkinter_1.font as tk_Font
 except ImportError:
     try:
         import Tkinter as tk  # python2
