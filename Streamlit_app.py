@@ -11,7 +11,7 @@ from skimage import io
 import datetime as dt
 from datetime import time
 #导入EasyGui模块来调用文件夹窗口
-
+import tkinter as tk
 #其他用到的库
 import ffmpeg
 import sys
@@ -136,14 +136,6 @@ language = st.sidebar.selectbox(
             "📥 Choose the language of sub you need.",
             ('English', 'Chinese', 'Japanese'),
             help = " Choose Sub language here.")
-
-def file_selector(folder_path='.'):
-    filenames = os.listdir(folder_path)
-    selected_filename = st.selectbox('Select a file', filenames)
-    return os.path.join(folder_path, selected_filename)
-
-filename = file_selector()
-st.write('You selected `%s`' % filename)
 
 #设置网站的墙纸？只是为了美观而已加了一张图片
 try:
