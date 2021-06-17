@@ -26,9 +26,9 @@ if not runningPython27 and not runningPython34:
 # Import Tkinter, the tk filedialog, and put everything in tkinter into
 # the current namespace
 try:
-    import tkinter as tk  # python3
+    import tkinter_1 as tk  # python3
     # TODO: Ultimately this should go away once everything stops using it.
-    from tkinter import *
+    from tkinter_1 import *
     import tkinter.filedialog as tk_FileDialog
     import tkinter.font as tk_Font
 except ImportError:
