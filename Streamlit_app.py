@@ -24,6 +24,12 @@ from urllib.request import urlopen
 import base64
 import pandas as pd
 
+def text_downloader(raw_text):
+	b64 = base64.b64encode(raw_text.encode()).decode()
+	new_filename = "new_text_file_{}_.txt".format(timestr)
+	st.markdown("#### Download File ###")
+	href = f'<a href="data:file/txt;base64,{b64}" download="{new_filename}">Click Here!!</a>'
+	st.markdown(href,unsafe_allow_html=True)
 
 #通过不同复选框筛选下载选项
 def options_filter(a,b,c,d,language):
@@ -45,37 +51,15 @@ def options_filter(a,b,c,d,language):
         #设置下载按钮#给每个文件的按钮一个唯一的键以区分
         if st.button("Download",key=a+b+c+str(d),help="Click here to download"):
 
-            #通过easygui的diropenbox函数打开文件资源管理器#让用户选择下载地址
-            my_path = '.'
-            my_video.streams.get_by_itag(d).download(my_path)
-
-            #优先下载官方字幕#备用下载自动生成字幕
-            if  get_caption_by_language_name(my_video,'English')!=None and language == 'English':
-                caption=get_caption_by_language_name(my_video,'English')
-                c_tag=1
-            elif get_caption_by_language_name(my_video,'English (auto-generated)')!=None and language == 'English':
-                caption=get_caption_by_language_name(my_video,'English (auto-generated)')
-                c_tag=2
-            elif get_caption_by_language_name(my_video,'Japanese')!=None and language == 'Japanese':
-                caption=get_caption_by_language_name(my_video,'Japanese')
-                c_tag=3
-            elif get_caption_by_language_name(my_video,'Japanese (auto-generated)')!=None and language == 'Japanese':
-                caption=get_caption_by_language_name(my_video,'Japanese (auto-generated)')
-                c_tag=4
-            elif get_caption_by_language_name(my_video,'Chinese')!=None and language == 'Chinese':
-                caption=get_caption_by_language_name(my_video,'Chinese')
-                c_tag=5
-            elif get_caption_by_language_name(my_video,'Chinese (auto-generated)')!=None and language == 'Chinese':
-                caption=get_caption_by_language_name(my_video,'Chinese (auto-generated)')
-                c_tag=6
-            else:
-                c_tag=10
 
             #当有可用字幕时在路径保存字幕srt文件#Save Sub if it's available
-            if c_tag<10:
+            if 9<10:
                 try:
                     content = caption.generate_srt_captions()
+                    name = 'Subtitle['+language+'].srt'
                     makefile(my_path,content,language)
+                    text_downloader(name)
+
                 except UnboundLocalError:
                     content = "I'm sorry~~There's no YouTube subtitle available."
                     language = "Not found"
